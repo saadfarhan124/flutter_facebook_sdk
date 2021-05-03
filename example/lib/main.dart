@@ -16,7 +16,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _deepLinkUrl = 'Unknown';
   FlutterFacebookSdk facebookDeepLinks;
-  bool isAdvertisingTrackingEnabled = true;
+  bool isAdvertisingTrackingEnabled = false;
 
   @override
   void initState() {

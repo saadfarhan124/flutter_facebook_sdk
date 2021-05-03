@@ -39,13 +39,21 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
     
     public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable : Any] = [:]) -> Bool {
         
-        Settings.setAdvertiserTrackingEnabled(true)
+        Settings.setAdvertiserTrackingEnabled(false)
         let launchOptionsForFacebook = launchOptions as? [UIApplication.LaunchOptionsKey: Any]
         ApplicationDelegate.shared.application(
             application,
             didFinishLaunchingWithOptions:
                 launchOptionsForFacebook
         )
+        AppLinkUtility.fetchDeferredAppLink{ (url, error) in
+            if let error = error{
+                print("Error %a", error)
+            }
+            if let url = url {
+                self.deepLinkUrl = url.absoluteString
+            }
+        }
         return true
     }
     

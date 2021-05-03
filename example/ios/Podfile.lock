@@ -27,7 +27,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   FBSDKCoreKit: 9d27fe97a2fa2abe5eeefea8240e837623ab88e0
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_facebook_sdk: 544e2fd05d0b7c9edde39a99b44e5fc659c01b21
+  flutter_facebook_sdk: 0a2d884e25e0cc7fe9adf0899de2a5ebcf55b097
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 

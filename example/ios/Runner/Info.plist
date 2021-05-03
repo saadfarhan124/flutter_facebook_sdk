@@ -41,22 +41,22 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-    <key>CFBundleURLTypes</key>
-       <array>
-         <dict>
-         <key>CFBundleURLSchemes</key>
-         <array>
-           <string>fb[APP_ID]</string>
-         </array>
-         </dict>
-       </array>
-       <key>FacebookAppID</key>
-       <string>[APP_ID]</string>
-       <key>FacebookDisplayName</key>
-       <string>[DISPLAY NAME]</string>
-       <key>FacebookAutoLogAppEventsEnabled</key>
-       <true/>
-       <key>FacebookAdvertiserIDCollectionEnabled</key>
-       <true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb162345385701644</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>162345385701644</string>
+	<key>FacebookDisplayName</key>
+	<string>October Now - Test1</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<true/>
+	<key>FacebookAdvertiserIDCollectionEnabled</key>
+	<true/>
 </dict>
 </plist>
