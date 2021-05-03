@@ -136,13 +136,13 @@ class _MyAppState extends State<MyApp> {
               FlatButton(
                   onPressed: () async => await logSearch(),
                   child: Text("Trigger Search")),
-              Platform.isIOS ? 
-              FlatButton(
-                  onPressed: () async => await setAdvertiserTracking(),
-                  child: isAdvertisingTrackingEnabled
-                      ? Text("Disable Advertiser Tracking")
-                      : Text("Enable Advertiser Tracking")) : 
-                      Container(),
+              Platform.isIOS
+                  ? FlatButton(
+                      onPressed: () async => await setAdvertiserTracking(),
+                      child: isAdvertisingTrackingEnabled
+                          ? Text("Disable Advertiser Tracking")
+                          : Text("Enable Advertiser Tracking"))
+                  : Container(),
             ],
           ),
         ),
