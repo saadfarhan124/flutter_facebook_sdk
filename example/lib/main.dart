@@ -95,10 +95,9 @@ class _MyAppState extends State<MyApp> {
         success: false);
   }
 
-  Future<void> setAdvertiserTracking() async{
+  Future<void> setAdvertiserTracking() async {
     await facebookDeepLinks.setAdvertiserTracking(
-     isEnabled: !isAdvertisingTrackingEnabled
-    );
+        isEnabled: !isAdvertisingTrackingEnabled);
     setState(() {
       isAdvertisingTrackingEnabled = !isAdvertisingTrackingEnabled;
     });
@@ -138,7 +137,9 @@ class _MyAppState extends State<MyApp> {
                   child: Text("Trigger Search")),
               FlatButton(
                   onPressed: () async => await setAdvertiserTracking(),
-                  child: isAdvertisingTrackingEnabled ? Text("Disable Advertiser Tracking") : Text("Enable Advertiser Tracking"))
+                  child: isAdvertisingTrackingEnabled
+                      ? Text("Disable Advertiser Tracking")
+                      : Text("Enable Advertiser Tracking")),
             ],
           ),
         ),
