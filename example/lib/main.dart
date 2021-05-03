@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:io' show Platform;
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_sdk/flutter_facebook_sdk.dart';
 
@@ -135,11 +136,13 @@ class _MyAppState extends State<MyApp> {
               FlatButton(
                   onPressed: () async => await logSearch(),
                   child: Text("Trigger Search")),
+              Platform.isIOS ? 
               FlatButton(
                   onPressed: () async => await setAdvertiserTracking(),
                   child: isAdvertisingTrackingEnabled
                       ? Text("Disable Advertiser Tracking")
-                      : Text("Enable Advertiser Tracking")),
+                      : Text("Enable Advertiser Tracking")) : 
+                      Container(),
             ],
           ),
         ),
