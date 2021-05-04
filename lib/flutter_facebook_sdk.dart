@@ -150,6 +150,27 @@ class FlutterFacebookSdk {
     return result;
   }
 
+  /// Logs Initiate Checkout Event of FBSDK with [numItems] and [paymentInfoAvailable]
+  Future<bool> logInitiateCheckout(
+      {@required String contentType,
+      @required String contentData,
+      @required String contentId,
+      @required int numItems,
+      @required bool paymentInfoAvailable,
+      @required String currency,
+      @required double totalPrice}) async {
+    final bool result = await _channel.invokeMethod("logInitiateCheckout", {
+      "contentType": contentType,
+      "contentData": contentData,
+      "contentId": contentId,
+      "numItems": numItems,
+      "paymentInfoAvailable": paymentInfoAvailable,
+      "currency": currency,
+      "totalPrice": totalPrice
+    });
+    return result;
+  }
+
   /// Only Available in iOS
   /// Set the advertiser tracking to truue or false
   /// App events won't work if this is disabled

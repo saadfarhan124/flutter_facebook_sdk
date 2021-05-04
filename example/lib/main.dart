@@ -96,6 +96,18 @@ class _MyAppState extends State<MyApp> {
         success: false);
   }
 
+  Future<void> logInitiateCheckout() async {
+    await facebookDeepLinks.logInitiateCheckout(
+      contentType: "Product",
+      contentData: "Nestle Milkpak",
+      contentId: "NST135",
+      currency: "PKR",
+      numItems: 12,
+      paymentInfoAvailable: false,
+      totalPrice: 560,
+    );
+  }
+
   Future<void> setAdvertiserTracking() async {
     await facebookDeepLinks.setAdvertiserTracking(
         isEnabled: !isAdvertisingTrackingEnabled);
@@ -136,6 +148,9 @@ class _MyAppState extends State<MyApp> {
               FlatButton(
                   onPressed: () async => await logSearch(),
                   child: Text("Trigger Search")),
+              FlatButton(
+                  onPressed: () async => await logInitiateCheckout(),
+                  child: Text("Trigger Initiate Checkout")),
               Platform.isIOS
                   ? FlatButton(
                       onPressed: () async => await setAdvertiserTracking(),

@@ -125,6 +125,27 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
         AppEvents.logEvent(.searched, parameters: parameters)
     }
     
+    func logInitiateCheckoutEvent(
+        contentData: String,
+        contentId: String,
+        contentType: String,
+        numItems: Int,
+        paymentInfoAvailable: Bool,
+        currency: String,
+        totalPrice: Double
+    ) {
+        let parameters = [
+            AppEvents.ParameterName.content.rawValue: contentData,
+            AppEvents.ParameterName.contentID.rawValue: contentId,
+            AppEvents.ParameterName.contentType.rawValue: contentType,
+            AppEvents.ParameterName.numItems.rawValue: NSNumber(value:numItems),
+            AppEvents.ParameterName.paymentInfoAvailable.rawValue: NSNumber(value: paymentInfoAvailable ? 1 : 0),
+            AppEvents.ParameterName.currency.rawValue: currency
+        ] as [String : Any]
+        
+        AppEvents.logEvent(.initiatedCheckout, valueToSum: totalPrice, parameters: parameters)
+    }
+    
     func sendMessageToStream(link:String){
         guard let eventSink = _eventSink else {
             _queuedLinks.append(link)
@@ -210,6 +231,23 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
                let searchString = myArgs["searchString"] as? String,
                let success = myArgs["success"] as? Bool{
                 self.logSearchEvent(contentType: contentType, contentData: contentData, contentId: contentId, searchString: searchString, success: success)
+                result(true)
+                return
+            }
+        case "logInitiateCheckout":
+            guard let args = call.arguments else {
+                result(false)
+                return
+            }
+            if let myArgs = args as? [String: Any],
+               let contentType = myArgs["contentType"] as? String,
+               let contentData = myArgs["contentData"] as? String,
+               let contentId = myArgs["contentId"] as? String,
+               let numItems = myArgs["numItems"] as? Int,
+               let paymentInfoAvailable = myArgs["paymentInfoAvailable"] as? Bool,
+               let currency = myArgs["currency"] as? String,
+               let totalPrice = myArgs["totalPrice"] as? Double{
+                self.logInitiateCheckoutEvent(contentData: contentData, contentId: contentId, contentType: contentType, numItems: numItems, paymentInfoAvailable: paymentInfoAvailable, currency: currency, totalPrice: totalPrice)
                 result(true)
                 return
             }
