@@ -171,6 +171,30 @@ class FlutterFacebookSdk {
     return result;
   }
 
+  /// A generic function to log facebook app events
+  /// This can be used in place of other log event functions present in the plugin
+  /// But for logging purchase you will have to explicityly use the [logPurhcase] method
+  /// ``` dart
+  /// await logEvent(
+  ///   eventName: "fb_mobile_add_payment_info",
+  ///   parameters: {
+  ///     'SUCCESS': "true",
+  ///   },
+  ///   valueToSum: 55
+  /// ),
+  /// ```
+  Future<bool> logEvent(
+      {@required String eventName,
+      double valueToSum,
+      dynamic parameters}) async {
+    final bool result = await _channel.invokeMethod("logEvent", {
+      'eventName': eventName,
+      'valueToSum': valueToSum,
+      'parameters': parameters
+    });
+    return result;
+  }
+
   /// Only Available in iOS
   /// Set the advertiser tracking to truue or false
   /// App events won't work if this is disabled

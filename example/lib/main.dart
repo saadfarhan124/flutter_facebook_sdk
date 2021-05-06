@@ -108,6 +108,14 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  Future<void> logEvent(
+      {@required String eventName,
+      double valueToSum,
+      dynamic parameters}) async {
+    await facebookDeepLinks.logEvent(
+        eventName: eventName, parameters: parameters, valueToSum: valueToSum);
+  }
+
   Future<void> setAdvertiserTracking() async {
     await facebookDeepLinks.setAdvertiserTracking(
         isEnabled: !isAdvertisingTrackingEnabled);
@@ -151,6 +159,23 @@ class _MyAppState extends State<MyApp> {
               FlatButton(
                   onPressed: () async => await logInitiateCheckout(),
                   child: Text("Trigger Initiate Checkout")),
+              FlatButton(
+                  onPressed: () async => await logEvent(
+                        eventName: "button_clicked",
+                        parameters: {
+                          'button_id': 'the_clickme_button',
+                        },
+                      ),
+                  child: Text("Trigger Button Clicked")),
+              FlatButton(
+                  onPressed: () async => await logEvent(
+                        eventName: "fb_mobile_add_payment_info",
+                        valueToSum: 55,
+                        parameters: {
+                          'SUCCESS': "true",
+                        },
+                      ),
+                  child: Text("Trigger Payment Info Click")),
               Platform.isIOS
                   ? FlatButton(
                       onPressed: () async => await setAdvertiserTracking(),

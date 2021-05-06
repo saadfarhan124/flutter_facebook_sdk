@@ -22,6 +22,8 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import java.util.*
+import kotlin.collections.HashMap
+import kotlin.math.log
 
 
 /** FlutterFacebookSdkPlugin */
@@ -109,9 +111,30 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
                 val args = call.arguments as HashMap<String, Any>
                 logInitiateCheckoutEvent(args["contentData"].toString(), args["contentId"].toString(), args["contentType"].toString(), args["numItems"].toString().toInt(), args["paymentInfoAvailable"].toString().toBoolean(), args["currency"].toString(), args["totalPrice"].toString().toDouble())
             }
+            "logEvent" -> {
+                val args = call.arguments as HashMap<String, Any>
+                logGenericEvent(args)
+            }
             else -> {
                 result.notImplemented()
             }
+        }
+    }
+
+    private fun logGenericEvent(args : HashMap<String, Any>){
+        val eventName = args["eventName"] as? String
+        val valueToSum = args["valueToSum"] as? Double
+        val parameters = args["parameters"] as? HashMap<String, Any>
+        if (valueToSum != null && parameters != null) {
+            val parameterBundle = createBundleFromMap(args["parameters"] as HashMap<String, Any>)
+            logger.logEvent(eventName, valueToSum, parameterBundle)
+        }else if(parameters != null){
+            val parameterBundle = createBundleFromMap(args["parameters"] as HashMap<String, Any>)
+            logger.logEvent(eventName, parameterBundle)
+        }else if(valueToSum != null){
+            logger.logEvent(eventName, valueToSum)
+        }else{
+            logger.logEvent(eventName)
         }
     }
 
