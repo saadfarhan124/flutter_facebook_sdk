@@ -46,12 +46,12 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb[APP_ID]</string>
+				<string>[APP_ID]</string>
 			</array>
 		</dict>
 	</array>
 	<key>FacebookAppID</key>
-	<string>[APP_ID]</string>
+	<string>fb[APP_ID]</string>
 	<key>FacebookDisplayName</key>
 	<string>[DISPLAY_NAME]</string>
 	<key>FacebookAutoLogAppEventsEnabled</key>

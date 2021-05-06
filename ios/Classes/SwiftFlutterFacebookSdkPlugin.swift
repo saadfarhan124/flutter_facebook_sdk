@@ -146,6 +146,21 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
         AppEvents.logEvent(.initiatedCheckout, valueToSum: totalPrice, parameters: parameters)
     }
     
+    func logGenericEvent(args: Dictionary<String, Any>){
+        let eventName = args["eventName"] as! String
+        let valueToSum = args["valueToSum"] as? Double
+        let parameters = args["parameters"] as? Dictionary<String, Any>
+        if(valueToSum != nil && parameters != nil){
+            AppEvents.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!, parameters: parameters!)
+        }else if(parameters != nil){
+            AppEvents.logEvent(AppEvents.Name(eventName), parameters: parameters!)
+        }else if(valueToSum != nil){
+            AppEvents.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!)
+        }else{
+            AppEvents.logEvent(AppEvents.Name(eventName))
+        }
+    }
+    
     func sendMessageToStream(link:String){
         guard let eventSink = _eventSink else {
             _queuedLinks.append(link)
@@ -261,6 +276,14 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
                 Settings.setAdvertiserTrackingEnabled(enabled)
                 result(nil)
                 return
+            }
+        case "logEvent":
+            guard let args = call.arguments else {
+                result(false)
+                return
+            }
+            if let myArgs = args as? [String: Any]{
+                logGenericEvent(args: myArgs)
             }
             
         default:
