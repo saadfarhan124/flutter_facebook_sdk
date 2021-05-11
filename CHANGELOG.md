@@ -14,4 +14,8 @@
 ## 0.0.4
 * Updated FBSDKCoreKit version from '8.0.0' to '9.1.0'
 * Updated deployment platform from '8.0' to '9.0'
-* Added a generic function to log facebook evetns
+* Added a generic function to log facebook events
+
+
+## 0.0.5
+* Fixed plugin crash on app resume android. 
