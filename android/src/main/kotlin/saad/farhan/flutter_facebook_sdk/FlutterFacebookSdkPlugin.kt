@@ -21,6 +21,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
 import io.flutter.plugin.common.PluginRegistry.Registrar
+import java.lang.NullPointerException
 import java.util.*
 import kotlin.collections.HashMap
 import kotlin.math.log
@@ -255,8 +256,17 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
     }
 
     override fun onNewIntent(intent: Intent?): Boolean {
-        deepLinkUrl = AppLinks.getTargetUrl(intent).toString()
-        eventSink!!.success(deepLinkUrl)
+        try {
+            // some code
+            deepLinkUrl = AppLinks.getTargetUrl(intent).toString()
+            eventSink!!.success(deepLinkUrl)
+        } catch (e: NullPointerException) {
+            // handler
+            return false
+        }
+
+
+
         return false
     }
 }
