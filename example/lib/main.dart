@@ -16,7 +16,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _deepLinkUrl = 'Unknown';
-  FlutterFacebookSdk facebookDeepLinks;
+  FlutterFacebookSdk? facebookDeepLinks;
   bool isAdvertisingTrackingEnabled = false;
 
   @override
@@ -27,25 +27,25 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String deepLinkUrl;
+    String? deepLinkUrl;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       facebookDeepLinks = FlutterFacebookSdk();
-      facebookDeepLinks.onDeepLinkReceived.listen((event) {
+      facebookDeepLinks!.onDeepLinkReceived!.listen((event) {
         setState(() {
           _deepLinkUrl = event;
         });
       });
-      deepLinkUrl = await facebookDeepLinks.getDeepLinkUrl;
+      deepLinkUrl = await facebookDeepLinks!.getDeepLinkUrl;
       setState(() {
-        _deepLinkUrl = deepLinkUrl;
+        _deepLinkUrl = deepLinkUrl!;
       });
     } on PlatformException {}
     if (!mounted) return;
   }
 
   Future<void> logViewContent() async {
-    await facebookDeepLinks.logViewedContent(
+    await facebookDeepLinks!.logViewedContent(
         contentType: "Product",
         contentData: "Nestle Milkpak",
         contentId: "NST135",
@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> logAddToCart() async {
-    await facebookDeepLinks.logAddToCart(
+    await facebookDeepLinks!.logAddToCart(
         contentType: "Product",
         contentData: "Nestle Milkpak",
         contentId: "NST135",
@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> logAddToWishlist() async {
-    await facebookDeepLinks.logAddToWishlist(
+    await facebookDeepLinks!.logAddToWishlist(
         contentType: "Product",
         contentData: "Nestle Milkpak",
         contentId: "NST135",
@@ -72,23 +72,23 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> logPurchase() async {
-    await facebookDeepLinks.logPurhcase(amount: 669, currency: "PKR", params: {
+    await facebookDeepLinks!.logPurhcase(amount: 669, currency: "PKR", params: {
       'content-type': "product_group",
       'num-items': 56,
     });
   }
 
   Future<void> logCompleteRegistration() async {
-    await facebookDeepLinks.logCompleteRegistration(
-        registrationMethod: "Number");
+    await facebookDeepLinks!
+        .logCompleteRegistration(registrationMethod: "Number");
   }
 
   Future<void> logActivateApp() async {
-    await facebookDeepLinks.logActivateApp();
+    await facebookDeepLinks!.logActivateApp();
   }
 
   Future<void> logSearch() async {
-    await facebookDeepLinks.logSearch(
+    await facebookDeepLinks!.logSearch(
         contentType: "Product",
         contentData: "Nestle Milkpak",
         contentId: "NST135",
@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> logInitiateCheckout() async {
-    await facebookDeepLinks.logInitiateCheckout(
+    await facebookDeepLinks!.logInitiateCheckout(
       contentType: "Product",
       contentData: "Nestle Milkpak",
       contentId: "NST135",
@@ -109,16 +109,16 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> logEvent(
-      {@required String eventName,
-      double valueToSum,
-      dynamic parameters}) async {
-    await facebookDeepLinks.logEvent(
+      {required String eventName,
+      double? valueToSum,
+      dynamic? parameters}) async {
+    await facebookDeepLinks!.logEvent(
         eventName: eventName, parameters: parameters, valueToSum: valueToSum);
   }
 
   Future<void> setAdvertiserTracking() async {
-    await facebookDeepLinks.setAdvertiserTracking(
-        isEnabled: !isAdvertisingTrackingEnabled);
+    await facebookDeepLinks!
+        .setAdvertiserTracking(isEnabled: !isAdvertisingTrackingEnabled);
     setState(() {
       isAdvertisingTrackingEnabled = !isAdvertisingTrackingEnabled;
     });
@@ -135,31 +135,31 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             children: [
               Text('Running on: $_deepLinkUrl\n'),
-              FlatButton(
+              TextButton(
                   onPressed: () async => await logViewContent(),
                   child: Text("Trigger View Content")),
-              FlatButton(
+              TextButton(
                   onPressed: () async => await logActivateApp(),
                   child: Text("Trigger Activate App")),
-              FlatButton(
+              TextButton(
                   onPressed: () async => await logAddToCart(),
                   child: Text("Trigger Add to cart")),
-              FlatButton(
+              TextButton(
                   onPressed: () async => await logAddToWishlist(),
                   child: Text("Trigger Add to Wishlist")),
-              FlatButton(
+              TextButton(
                   onPressed: () async => await logCompleteRegistration(),
                   child: Text("Trigger Complete Registration")),
-              FlatButton(
+              TextButton(
                   onPressed: () async => await logPurchase(),
                   child: Text("Trigger Purchase")),
-              FlatButton(
+              TextButton(
                   onPressed: () async => await logSearch(),
                   child: Text("Trigger Search")),
-              FlatButton(
+              TextButton(
                   onPressed: () async => await logInitiateCheckout(),
                   child: Text("Trigger Initiate Checkout")),
-              FlatButton(
+              TextButton(
                   onPressed: () async => await logEvent(
                         eventName: "button_clicked",
                         parameters: {
@@ -167,7 +167,7 @@ class _MyAppState extends State<MyApp> {
                         },
                       ),
                   child: Text("Trigger Button Clicked")),
-              FlatButton(
+              TextButton(
                   onPressed: () async => await logEvent(
                         eventName: "fb_mobile_add_payment_info",
                         valueToSum: 55,
@@ -177,7 +177,7 @@ class _MyAppState extends State<MyApp> {
                       ),
                   child: Text("Trigger Payment Info Click")),
               Platform.isIOS
-                  ? FlatButton(
+                  ? TextButton(
                       onPressed: () async => await setAdvertiserTracking(),
                       child: isAdvertisingTrackingEnabled
                           ? Text("Disable Advertiser Tracking")
