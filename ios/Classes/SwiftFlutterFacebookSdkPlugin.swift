@@ -274,7 +274,7 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
             if  let myArgs = args as? [String: Any],
                 let enabled = myArgs["enabled"] as? Bool{
                 Settings.setAdvertiserTrackingEnabled(enabled)
-                result(nil)
+                result(true)
                 return
             }
         case "logEvent":
