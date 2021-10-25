@@ -174,6 +174,10 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         switch call.method {
+        case "initializeSDK":
+            ApplicationDelegate.initializeSDK(nil)
+            result(nil)
+            return
         case "getPlatformVersion":
             result("iOS " + UIDevice.current.systemVersion)
         case "getDeepLinkUrl":
@@ -272,9 +276,9 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
                 return
             }
             if  let myArgs = args as? [String: Any],
-                let enabled = myArgs["enabled"] as? Bool{
+                let enabled = myArgs["enabled"] as? Bool {
                 Settings.setAdvertiserTrackingEnabled(enabled)
-                result(nil)
+                result(enabled)
                 return
             }
         case "logEvent":
