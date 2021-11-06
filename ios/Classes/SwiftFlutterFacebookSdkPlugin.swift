@@ -288,6 +288,8 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
             }
             if let myArgs = args as? [String: Any]{
                 logGenericEvent(args: myArgs)
+                result(true)
+                return
             }
             
         default:
