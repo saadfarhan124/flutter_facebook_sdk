@@ -23,3 +23,11 @@
 ## 1.0.0
 
 - Migrate to null safety.
+
+## 1.1.0
+
+- Update FBSDKCoreKit version to 12.3.1.
+- Fix deprecated function.
+    - AppEvents => AppEvents.shared
+    - parameters of AppEvents.shared.logEvent => Dictionary<AppEvents.ParameterName, Any>
+    - Settings.setAdvertiserTrackingEnabled(enabled) => Settings.shared.isAdvertiserTrackingEnabled = enabled
