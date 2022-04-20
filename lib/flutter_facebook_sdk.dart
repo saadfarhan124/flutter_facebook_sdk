@@ -53,6 +53,10 @@ class FlutterFacebookSdk {
     return url;
   }
 
+  Future<String?> getAnonymousId() {
+    return _channel.invokeMethod<String>('getAnonymousId');
+  }
+
   /// InitializeSDK for iOS
   Future<bool> initializeSDK() async {
     await _channel.invokeMethod("initializeSDK");

@@ -38,7 +38,7 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
     private lateinit var methodChannel: MethodChannel
     private lateinit var eventChannel: EventChannel
     private lateinit var logger: AppEventsLogger
-
+    private lateinit var anonymousId: String
 
     private var deepLinkUrl: String = "Saad Farhan"
     private var PLATFORM_CHANNEL: String = "flutter_facebook_sdk/methodChannel"
@@ -62,6 +62,8 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
         eventChannel.setStreamHandler(this)
 
         context = flutterPluginBinding.applicationContext
+
+        anonymousId = AppEventsLogger.getAnonymousAppDeviceGUID(flutterPluginBinding.applicationContext)
     }
 
 
@@ -116,25 +118,26 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
                 val args = call.arguments as HashMap<String, Any>
                 logGenericEvent(args)
             }
+            "getAnonymousId" -> handleGetAnonymousId(call, result)
             else -> {
                 result.notImplemented()
             }
         }
     }
 
-    private fun logGenericEvent(args : HashMap<String, Any>){
+    private fun logGenericEvent(args: HashMap<String, Any>) {
         val eventName = args["eventName"] as? String
         val valueToSum = args["valueToSum"] as? Double
         val parameters = args["parameters"] as? HashMap<String, Any>
         if (valueToSum != null && parameters != null) {
             val parameterBundle = createBundleFromMap(args["parameters"] as HashMap<String, Any>)
             logger.logEvent(eventName, valueToSum, parameterBundle)
-        }else if(parameters != null){
+        } else if (parameters != null) {
             val parameterBundle = createBundleFromMap(args["parameters"] as HashMap<String, Any>)
             logger.logEvent(eventName, parameterBundle)
-        }else if(valueToSum != null){
+        } else if (valueToSum != null) {
             logger.logEvent(eventName, valueToSum)
-        }else{
+        } else {
             logger.logEvent(eventName)
         }
     }
@@ -237,6 +240,10 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
 
     override fun onDetachedFromActivity() {
 
+    }
+
+    private fun handleGetAnonymousId(call: MethodCall, result: Result) {
+        result.success(anonymousId)
     }
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
