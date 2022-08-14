@@ -15,7 +15,7 @@ A new flutter plugin project.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'FBSDKCoreKit', '~> 12.3.1'
+  s.dependency 'FBSDKCoreKit', '~> 14.1.0'
   s.platform = :ios, '11.0'
 
   # Flutter.framework does not contain a i386 slice.

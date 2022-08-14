@@ -205,4 +205,59 @@ class FlutterFacebookSdk {
         .invokeMethod("setAdvertiserTracking", {"enabled": isEnabled});
     return result;
   }
+
+  Future<bool> logRated() async {
+    await _channel.invokeMethod("logRated");
+    return true;
+  }
+
+  Future<bool> logDonate() async {
+    await _channel.invokeMethod("logDonate");
+    return true;
+  }
+
+  Future<bool> logContact() async {
+    await _channel.invokeMethod("logContact");
+    return true;
+  }
+
+  Future<bool> logStartTrial() async {
+    await _channel.invokeMethod("logStartTrial");
+    return true;
+  }
+
+  Future<bool> logSpentCredits() async {
+    await _channel.invokeMethod("logSpentCredits");
+    return true;
+  }
+
+  Future<bool> logSubscribe() async {
+    await _channel.invokeMethod("logSubscribe");
+    return true;
+  }
+
+  Future<bool> logPurchased() async {
+    await _channel.invokeMethod("logPurchased");
+    return true;
+  }
+
+  Future<bool> logCustomizeProduct() async {
+    await _channel.invokeMethod("logCustomizeProduct");
+    return true;
+  }
+
+  Future<bool> logAchievedLevel() async {
+    await _channel.invokeMethod("logAchievedLevel");
+    return true;
+  }
+
+  Future<bool> logFindLocation() async {
+    await _channel.invokeMethod("logFindLocation");
+    return true;
+  }
+
+  Future<bool> logAddedToCart() async {
+    await _channel.invokeMethod("logAddedToCart");
+    return true;
+  }
 }
