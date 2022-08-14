@@ -116,6 +116,42 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
                 val args = call.arguments as HashMap<String, Any>
                 logGenericEvent(args)
             }
+            "logRated" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_RATED)
+            }
+            "logDonate" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_DONATE)
+            }
+            "logContact" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_CONTACT)
+            }
+            "logStartTrial" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_START_TRIAL)
+            }
+            "logSpentCredits" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_SPENT_CREDITS)
+            }
+            "logSubscribe" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_SUBSCRIBE)
+            }
+            "logPurchased" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_PURCHASED)
+            }
+            "logCustomizeProduct" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_CUSTOMIZE_PRODUCT)
+            }
+            "logAchievedLevel" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_ACHIEVED_LEVEL)
+            }
+            "logFindLocation" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_FIND_LOCATION)
+            }
+            "logAddedToCart" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_ADDED_TO_CART)
+            }
+            "logViewedContent" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT)
+            }
             else -> {
                 result.notImplemented()
             }
