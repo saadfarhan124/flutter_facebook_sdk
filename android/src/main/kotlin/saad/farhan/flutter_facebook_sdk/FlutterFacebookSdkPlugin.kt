@@ -149,9 +149,6 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
             "logAddedToCart" -> {
                 logger.logEvent(AppEventsConstants.EVENT_NAME_ADDED_TO_CART)
             }
-            "logViewedContent" -> {
-                logger.logEvent(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT)
-            }
             else -> {
                 result.notImplemented()
             }
