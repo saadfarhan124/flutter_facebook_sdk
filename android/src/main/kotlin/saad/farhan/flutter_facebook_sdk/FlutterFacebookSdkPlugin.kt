@@ -4,11 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.NonNull
-import bolts.AppLinks
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsConstants
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.applinks.AppLinkData
+import com.facebook.bolts.AppLinks
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -122,6 +122,23 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
         }
     }
 
+    private fun fetchAppLinkData(context: Context) {
+        AppLinkData.fetchDeferredAppLinkData(context, object : AppLinkData.CompletionHandler {
+            override fun onDeferredAppLinkDataFetched(appLinkData: AppLinkData?) {
+
+                if (appLinkData == null) {
+                    return;
+                }
+
+                deepLinkUrl = appLinkData.targetUri.toString();
+                if (eventSink != null) {
+                    eventSink!!.success(deepLinkUrl)
+                }
+            }
+
+        })
+    }
+
     private fun logGenericEvent(args : HashMap<String, Any>){
         val eventName = args["eventName"] as? String
         val valueToSum = args["valueToSum"] as? Double
@@ -186,23 +203,25 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
     private fun initFbSdk() {
         FacebookSdk.setAutoInitEnabled(true)
         FacebookSdk.fullyInitialize()
-        logger = AppEventsLogger.newLogger(context)
+        logger = context?.let { AppEventsLogger.newLogger(it) }!!
 
-        val targetUri = AppLinks.getTargetUrlFromInboundIntent(context, activityPluginBinding!!.activity.intent)
-        AppLinkData.fetchDeferredAppLinkData(context, object : AppLinkData.CompletionHandler {
-            override fun onDeferredAppLinkDataFetched(appLinkData: AppLinkData?) {
+        context?.let { fetchAppLinkData(it) }
 
-                if (appLinkData == null) {
-                    return;
-                }
-
-                deepLinkUrl = appLinkData.targetUri.toString();
-                if (eventSink != null && deepLinkUrl != null) {
-                    eventSink!!.success(deepLinkUrl)
-                }
-            }
-
-        })
+//        val targetUri = AppLinks.getTargetUrlFromInboundIntent(context, activityPluginBinding!!.activity.intent)
+//        AppLinkData.fetchDeferredAppLinkData(context, object : AppLinkData.CompletionHandler {
+//            override fun onDeferredAppLinkDataFetched(appLinkData: AppLinkData?) {
+//
+//                if (appLinkData == null) {
+//                    return;
+//                }
+//
+//                deepLinkUrl = appLinkData.targetUri.toString();
+//                if (eventSink != null && deepLinkUrl != null) {
+//                    eventSink!!.success(deepLinkUrl)
+//                }
+//            }
+//
+//        })
     }
 
     private fun createBundleFromMap(parameterMap: Map<String, Any>?): Bundle? {
@@ -255,17 +274,16 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
 
     }
 
-    override fun onNewIntent(intent: Intent?): Boolean {
+    override fun onNewIntent(intent: Intent): Boolean {
         try {
             // some code
-            deepLinkUrl = AppLinks.getTargetUrl(intent).toString()
-            eventSink!!.success(deepLinkUrl)
+//            deepLinkUrl = AppLinks.getTargetUrl(intent).toString()
+//            eventSink!!.success(deepLinkUrl)
+            context?.let { fetchAppLinkData(it) }
         } catch (e: NullPointerException) {
             // handler
             return false
         }
-
-
 
         return false
     }
