@@ -1,3 +1,2 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="saad.farhan.flutter_facebook_sdk">
+<manifest package="saad.farhan.flutter_facebook_sdk">
 </manifest>
