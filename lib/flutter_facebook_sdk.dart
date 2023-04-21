@@ -55,24 +55,24 @@ class FlutterFacebookSdk {
 
   /// InitializeSDK for iOS
   Future<bool> initializeSDK() async {
-    await _channel.invokeMethod("initializeSDK");
+    await _channel.invokeMethod<bool?>("initializeSDK");
     return true;
   }
 
   /// Logs App Activate Event of FBSDK
   Future<bool> logActivateApp() async {
-    await _channel.invokeMethod("activateApp");
+    await _channel.invokeMethod<bool?>("activateApp");
     return true;
   }
 
   /// Logs View Content Event of FBSDK with [currency] and [price]
-  Future<bool> logViewedContent(
+  Future<bool?> logViewedContent(
       {required String contentType,
       required String contentData,
       required String contentId,
       required String currency,
       required double price}) async {
-    final bool result = await _channel.invokeMethod("logViewedContent", {
+    final bool? result = await _channel.invokeMethod("logViewedContent", {
       "contentType": contentType,
       "contentData": contentData,
       "contentId": contentId,
@@ -83,13 +83,13 @@ class FlutterFacebookSdk {
   }
 
   /// Logs Add to Cart Event of FBSDK with [currency] and [price]
-  Future<bool> logAddToCart(
+  Future<bool?> logAddToCart(
       {required String contentType,
       required String contentData,
       required String contentId,
       required String currency,
       required double price}) async {
-    final bool result = await _channel.invokeMethod("logAddToCart", {
+    final bool? result = await _channel.invokeMethod<bool?>("logAddToCart", {
       "contentType": contentType,
       "contentData": contentData,
       "contentId": contentId,
@@ -100,13 +100,13 @@ class FlutterFacebookSdk {
   }
 
   /// Logs Add to Wishlist Event of FBSDK with [currency] and [price]
-  Future<bool> logAddToWishlist(
+  Future<bool?> logAddToWishlist(
       {required String contentType,
       required String contentData,
       required String contentId,
       required String currency,
       required double price}) async {
-    final bool result = await _channel.invokeMethod("logAddToWishlist", {
+    final bool? result = await _channel.invokeMethod("logAddToWishlist", {
       "contentType": contentType,
       "contentData": contentData,
       "contentId": contentId,
@@ -117,32 +117,32 @@ class FlutterFacebookSdk {
   }
 
   /// Logs Complete Registration Event of FBSDK with [registrationMethod]
-  Future<bool> logCompleteRegistration(
+  Future<bool?> logCompleteRegistration(
       {required String registrationMethod}) async {
-    final bool result = await _channel.invokeMethod("logCompleteRegistration", {
+    final bool? result = await _channel.invokeMethod("logCompleteRegistration", {
       "registrationMethod": registrationMethod,
     });
     return result;
   }
 
   /// Logs Purchase Event of FBSDK with [currency] and [amount]
-  Future<bool> logPurhcase(
+  Future<bool?> logPurhcase(
       {required double amount,
       required String currency,
       required Map<String, Object> params}) async {
-    final bool result = await _channel.invokeMethod("logPurchase",
+    final bool? result = await _channel.invokeMethod("logPurchase",
         {"amount": amount, "currency": currency, "parameters": params});
     return result;
   }
 
   /// Logs Search Event of FBSDK with [searchString] and [success]
-  Future<bool> logSearch(
+  Future<bool?> logSearch(
       {required String contentType,
       required String contentData,
       required String contentId,
       required String searchString,
       required bool success}) async {
-    final bool result = await _channel.invokeMethod("logSearch", {
+    final bool? result = await _channel.invokeMethod("logSearch", {
       "contentType": contentType,
       "contentData": contentData,
       "contentId": contentId,
@@ -153,7 +153,7 @@ class FlutterFacebookSdk {
   }
 
   /// Logs Initiate Checkout Event of FBSDK with [numItems] and [paymentInfoAvailable]
-  Future<bool> logInitiateCheckout(
+  Future<bool?> logInitiateCheckout(
       {required String contentType,
       required String contentData,
       required String contentId,
@@ -161,7 +161,7 @@ class FlutterFacebookSdk {
       required bool paymentInfoAvailable,
       required String currency,
       required double totalPrice}) async {
-    final bool result = await _channel.invokeMethod("logInitiateCheckout", {
+    final bool? result = await _channel.invokeMethod("logInitiateCheckout", {
       "contentType": contentType,
       "contentData": contentData,
       "contentId": contentId,
@@ -185,11 +185,11 @@ class FlutterFacebookSdk {
   ///   valueToSum: 55
   /// ),
   /// ```
-  Future<bool> logEvent(
+  Future<bool?> logEvent(
       {required String eventName,
       double? valueToSum,
-      dynamic? parameters}) async {
-    final bool result = await _channel.invokeMethod("logEvent", {
+      dynamic parameters}) async {
+    final bool? result = await _channel.invokeMethod("logEvent", <String, dynamic>{
       'eventName': eventName,
       'valueToSum': valueToSum,
       'parameters': parameters
@@ -200,8 +200,8 @@ class FlutterFacebookSdk {
   /// Only Available in iOS
   /// Set the advertiser tracking to true or false
   /// App events won't work if this is disabled
-  Future<bool> setAdvertiserTracking({required bool isEnabled}) async {
-    final bool result = await _channel
+  Future<bool?> setAdvertiserTracking({required bool isEnabled}) async {
+    final bool? result = await _channel
         .invokeMethod("setAdvertiserTracking", {"enabled": isEnabled});
     return result;
   }
