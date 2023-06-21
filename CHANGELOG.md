@@ -31,3 +31,22 @@
     - AppEvents => AppEvents.shared
     - parameters of AppEvents.shared.logEvent => Dictionary<AppEvents.ParameterName, Any>
     - Settings.setAdvertiserTrackingEnabled(enabled) => Settings.shared.isAdvertiserTrackingEnabled = enabled
+
+## 1.2.0
+
+- Update FBSDKCoreKit version to 14.1.0.
+- Add general App Events Log
+  - EVENT_NAME_RATED
+  - EVENT_NAME_DONATE
+  - EVENT_NAME_CONTACT
+  - EVENT_NAME_START_TRIAL
+  - EVENT_NAME_SPENT_CREDITS
+  - EVENT_NAME_SUBSCRIBE
+  - EVENT_NAME_PURCHASED
+  - EVENT_NAME_CUSTOMIZE_PRODUCT
+  - EVENT_NAME_ACHIEVED_LEVEL
+  - EVENT_NAME_FIND_LOCATION
+  - EVENT_NAME_ADDED_TO_CART
+  - EVENT_NAME_VIEWED_CONTENT
+  - EVENT_NAME_SCHEDULE
+  - EVENT_NAME_SUBMIT_APPLICATION
