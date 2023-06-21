@@ -260,4 +260,14 @@ class FlutterFacebookSdk {
     await _channel.invokeMethod("logAddedToCart");
     return true;
   }
+
+  Future<bool> logSchedule() async {
+    await _channel.invokeMethod("logSchedule");
+    return true;
+  }
+
+  Future<bool> logSubmitApplication() async {
+    await _channel.invokeMethod("logSubmitApplication");
+    return true;
+  }
 }
