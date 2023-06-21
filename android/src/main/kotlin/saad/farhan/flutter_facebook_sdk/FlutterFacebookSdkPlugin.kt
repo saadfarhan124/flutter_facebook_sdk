@@ -146,6 +146,12 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
             "logFindLocation" -> {
                 logger.logEvent(AppEventsConstants.EVENT_NAME_FIND_LOCATION)
             }
+            "logSchedule" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_SCHEDULE)
+            }
+            "logSubmitApplication" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_SUBMIT_APPLICATION)
+            }
             else -> {
                 result.notImplemented()
             }

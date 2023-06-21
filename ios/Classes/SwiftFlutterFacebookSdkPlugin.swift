@@ -335,6 +335,14 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
             AppEvents.shared.logEvent(.addedToCart)
             result(true)
             return
+        case "logSchedule":
+            AppEvents.shared.logEvent(.schedule)
+            result(true)
+            return
+        case "logSubmitApplication":
+            AppEvents.shared.logEvent(.submitApplication)
+            result(true)
+            return
         default:
             result(FlutterMethodNotImplemented)
         }
