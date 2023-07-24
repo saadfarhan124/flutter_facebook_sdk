@@ -50,3 +50,8 @@
   - EVENT_NAME_VIEWED_CONTENT
   - EVENT_NAME_SCHEDULE
   - EVENT_NAME_SUBMIT_APPLICATION
+
+## 1.2.1
+- fix "onNewIntent" override function
+- update kotlin version (1.3.50 => 1.7.10)
+- update gradle version (7.0.2 => 7.4)
