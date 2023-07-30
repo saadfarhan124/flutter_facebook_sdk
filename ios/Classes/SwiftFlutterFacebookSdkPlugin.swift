@@ -38,8 +38,8 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
     }
     
     public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable : Any] = [:]) -> Bool {
-        
-        Settings.setAdvertiserTrackingEnabled(false)
+
+        Settings.shared.isAdvertiserTrackingEnabled = false
         let launchOptionsForFacebook = launchOptions as? [UIApplication.LaunchOptionsKey: Any]
         ApplicationDelegate.shared.application(
             application,
@@ -65,7 +65,7 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
     }
     
     public func applicationDidBecomeActive(_ application: UIApplication) {
-        //        AppEvents.activateApp()
+        //        AppEvents.shared.activateApp()
     }
     
     
@@ -76,20 +76,20 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
                    price: Double,
                    type: String){
         let parameters = [
-            AppEvents.ParameterName.content.rawValue: contentData,
-            AppEvents.ParameterName.contentID.rawValue: contentId,
-            AppEvents.ParameterName.contentType.rawValue: contentType,
-            AppEvents.ParameterName.currency.rawValue: currency
+            AppEvents.ParameterName.content: contentData,
+            AppEvents.ParameterName.contentID: contentId,
+            AppEvents.ParameterName.contentType: contentType,
+            AppEvents.ParameterName.currency: currency
         ]
         switch(type){
         case "addToWishlist":
-            AppEvents.logEvent(.addedToWishlist, valueToSum: price, parameters: parameters)
+            AppEvents.shared.logEvent(.addedToWishlist, valueToSum: price, parameters: parameters)
             break
         case "addToCart":
-            AppEvents.logEvent(.addedToCart, valueToSum: price, parameters: parameters)
+            AppEvents.shared.logEvent(.addedToCart, valueToSum: price, parameters: parameters)
             break
         case "viewContent":
-            AppEvents.logEvent(.viewedContent, valueToSum: price, parameters: parameters)
+            AppEvents.shared.logEvent(.viewedContent, valueToSum: price, parameters: parameters)
             break
         default:
             break
@@ -98,13 +98,13 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
     
     func logCompleteRegistrationEvent(registrationMethod: String) {
         let parameters = [
-            AppEvents.ParameterName.registrationMethod.rawValue: registrationMethod
+            AppEvents.ParameterName.registrationMethod: registrationMethod
         ]
-        AppEvents.logEvent(.completedRegistration, parameters: parameters)
+        AppEvents.shared.logEvent(.completedRegistration, parameters: parameters)
     }
     
     func logPurchase(amount:Double, currency:String, parameters: Dictionary<String,Any>){
-        AppEvents.logPurchase(amount, currency: currency, parameters: parameters)
+        AppEvents.shared.logPurchase(amount: amount, currency: currency)
     }
     
     func logSearchEvent(
@@ -115,14 +115,14 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
         success: Bool
     ) {
         let parameters = [
-            AppEvents.ParameterName.contentType.rawValue: contentType,
-            AppEvents.ParameterName.content.rawValue: contentData,
-            AppEvents.ParameterName.contentID.rawValue: contentId,
-            AppEvents.ParameterName.searchString.rawValue: searchString,
-            AppEvents.ParameterName.success.rawValue: NSNumber(value: success ? 1 : 0)
-        ] as [String : Any]
+            AppEvents.ParameterName.contentType: contentType,
+            AppEvents.ParameterName.content: contentData,
+            AppEvents.ParameterName.contentID: contentId,
+            AppEvents.ParameterName.searchString: searchString,
+            AppEvents.ParameterName.success: NSNumber(value: success ? 1 : 0)
+        ] as [AppEvents.ParameterName : Any]
         
-        AppEvents.logEvent(.searched, parameters: parameters)
+        AppEvents.shared.logEvent(.searched, parameters: parameters)
     }
     
     func logInitiateCheckoutEvent(
@@ -135,29 +135,29 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
         totalPrice: Double
     ) {
         let parameters = [
-            AppEvents.ParameterName.content.rawValue: contentData,
-            AppEvents.ParameterName.contentID.rawValue: contentId,
-            AppEvents.ParameterName.contentType.rawValue: contentType,
-            AppEvents.ParameterName.numItems.rawValue: NSNumber(value:numItems),
-            AppEvents.ParameterName.paymentInfoAvailable.rawValue: NSNumber(value: paymentInfoAvailable ? 1 : 0),
-            AppEvents.ParameterName.currency.rawValue: currency
-        ] as [String : Any]
+            AppEvents.ParameterName.content: contentData,
+            AppEvents.ParameterName.contentID: contentId,
+            AppEvents.ParameterName.contentType: contentType,
+            AppEvents.ParameterName.numItems: NSNumber(value:numItems),
+            AppEvents.ParameterName.paymentInfoAvailable: NSNumber(value: paymentInfoAvailable ? 1 : 0),
+            AppEvents.ParameterName.currency: currency
+        ] as [AppEvents.ParameterName : Any]
         
-        AppEvents.logEvent(.initiatedCheckout, valueToSum: totalPrice, parameters: parameters)
+        AppEvents.shared.logEvent(.initiatedCheckout, valueToSum: totalPrice, parameters: parameters)
     }
     
     func logGenericEvent(args: Dictionary<String, Any>){
         let eventName = args["eventName"] as! String
         let valueToSum = args["valueToSum"] as? Double
-        let parameters = args["parameters"] as? Dictionary<String, Any>
+        let parameters = args["parameters"] as? Dictionary<AppEvents.ParameterName, Any>
         if(valueToSum != nil && parameters != nil){
-            AppEvents.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!, parameters: parameters!)
+            AppEvents.shared.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!, parameters: parameters!)
         }else if(parameters != nil){
-            AppEvents.logEvent(AppEvents.Name(eventName), parameters: parameters!)
+            AppEvents.shared.logEvent(AppEvents.Name(eventName), parameters: parameters!)
         }else if(valueToSum != nil){
-            AppEvents.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!)
+            AppEvents.shared.logEvent(AppEvents.Name(eventName), valueToSum: valueToSum!)
         }else{
-            AppEvents.logEvent(AppEvents.Name(eventName))
+            AppEvents.shared.logEvent(AppEvents.Name(eventName))
         }
     }
     
@@ -175,7 +175,7 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         switch call.method {
         case "initializeSDK":
-            ApplicationDelegate.initializeSDK(nil)
+            ApplicationDelegate.shared.initializeSDK()
             result(nil)
             return
         case "getPlatformVersion":
@@ -211,7 +211,7 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
             }
             
         case "activateApp":
-            AppEvents.activateApp()
+            AppEvents.shared.activateApp()
             result(true)
         case "logCompleteRegistration":
             guard let args = call.arguments else {
@@ -277,7 +277,7 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
             }
             if  let myArgs = args as? [String: Any],
                 let enabled = myArgs["enabled"] as? Bool {
-                Settings.setAdvertiserTrackingEnabled(enabled)
+                Settings.shared.isAdvertiserTrackingEnabled = enabled
                 result(enabled)
                 return
             }
@@ -291,7 +291,58 @@ public class SwiftFlutterFacebookSdkPlugin: NSObject, FlutterPlugin, FlutterStre
                 result(true)
                 return
             }
-            
+        case "logRated":
+            AppEvents.shared.logEvent(.rated)
+            result(true)
+            return
+        case "logDonate":
+            AppEvents.shared.logEvent(.donate)
+            result(true)
+            return
+        case "logContact":
+            AppEvents.shared.logEvent(.contact)
+            result(true)
+            return
+        case "logStartTrial":
+            AppEvents.shared.logEvent(.startTrial)
+            result(true)
+            return
+        case "logSpentCredits":
+            AppEvents.shared.logEvent(.spentCredits)
+            result(true)
+            return
+        case "logSubscribe":
+            AppEvents.shared.logEvent(.subscribe)
+            result(true)
+            return
+        case "logPurchased":
+            AppEvents.shared.logEvent(.purchased)
+            result(true)
+            return
+        case "logCustomizeProduct":
+            AppEvents.shared.logEvent(.customizeProduct)
+            result(true)
+            return
+        case "logAchievedLevel":
+            AppEvents.shared.logEvent(.achievedLevel)
+            result(true)
+            return
+        case "logFindLocation":
+            AppEvents.shared.logEvent(.findLocation)
+            result(true)
+            return
+        case "logAddedToCart":
+            AppEvents.shared.logEvent(.addedToCart)
+            result(true)
+            return
+        case "logSchedule":
+            AppEvents.shared.logEvent(.schedule)
+            result(true)
+            return
+        case "logSubmitApplication":
+            AppEvents.shared.logEvent(.submitApplication)
+            result(true)
+            return
         default:
             result(FlutterMethodNotImplemented)
         }
