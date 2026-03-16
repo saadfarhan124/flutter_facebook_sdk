@@ -116,6 +116,42 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
                 val args = call.arguments as HashMap<String, Any>
                 logGenericEvent(args)
             }
+            "logRated" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_RATED)
+            }
+            "logDonate" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_DONATE)
+            }
+            "logContact" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_CONTACT)
+            }
+            "logStartTrial" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_START_TRIAL)
+            }
+            "logSpentCredits" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_SPENT_CREDITS)
+            }
+            "logSubscribe" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_SUBSCRIBE)
+            }
+            "logPurchased" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_PURCHASED)
+            }
+            "logCustomizeProduct" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_CUSTOMIZE_PRODUCT)
+            }
+            "logAchievedLevel" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_ACHIEVED_LEVEL)
+            }
+            "logFindLocation" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_FIND_LOCATION)
+            }
+            "logSchedule" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_SCHEDULE)
+            }
+            "logSubmitApplication" -> {
+                logger.logEvent(AppEventsConstants.EVENT_NAME_SUBMIT_APPLICATION)
+            }
             else -> {
                 result.notImplemented()
             }
@@ -255,7 +291,7 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
 
     }
 
-    override fun onNewIntent(intent: Intent?): Boolean {
+    override fun onNewIntent(intent: Intent): Boolean {
         try {
             // some code
             deepLinkUrl = AppLinks.getTargetUrl(intent).toString()
@@ -264,9 +300,6 @@ class FlutterFacebookSdkPlugin : FlutterPlugin, MethodCallHandler, StreamHandler
             // handler
             return false
         }
-
-
-
         return false
     }
 }
